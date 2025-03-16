@@ -1,10 +1,8 @@
 # これは何？
-Voicevoxで生成された音声を使用した時報を流すためのソフトウェアです。  
-計算資源に乏しい環境での使用のため、事前に生成した音声を再生します。  
-時報は5分単位で流すことができます。
+Voicevoxで音声を生成してmp3にエンコードするためのコードです。
+[meta-ziho](https://github.com/igameta/meta-ziho)で再生される音声ファイルを生成します。
+5分単位の時報に使用する音声ファイルをmp3で出力します。
+実行には(voicevox_core)[https://github.com/VOICEVOX/voicevox_core]が必要です。
 
-# 対応しているキャラクタ
-- ずんだもん
-
-# クレジット表記
-VOICEVOX:ずんだもん  
+# License
+LAME library is under LGPL License. Hence this crate is licensed under the same shitty license 
