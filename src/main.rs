@@ -1,3 +1,4 @@
+use hound::WavReader;
 use vvcore::*;
 use mp3lame_encoder::{Bitrate, Builder, FlushNoGap, MonoPcm, Quality};
 use rodio::Decoder;
@@ -20,14 +21,19 @@ fn main(){
         let sound = vvc.tts_simple(&format!("{}時", i), speaker).unwrap();
         let mut encoder = Builder::new().expect("Create LAME builder");
         encoder.set_num_channels(1).expect("set channels");
-        encoder.set_sample_rate(44_100).expect("set sample rate");
+        encoder.set_sample_rate(22_000).expect("set sample rate"); // tts_simpleの出力結果から決め打ち
         encoder.set_brate(Bitrate::Kbps128).expect("set brate");
         encoder.set_quality(Quality::Best).expect("set quality");
 
         let mut encoder = encoder.build().expect("To innitialize LAME enocder");
 
-        let u16_sound = sound.as_slice().iter().map(|&x| x as u16).collect::<Vec<u16>>();
-        let pcm = MonoPcm(u16_sound.as_slice());
+        // tts_simpleの出力結果からi16で決め打ち
+        let mut sound_reader = WavReader::new(sound.as_slice()).unwrap();
+        let samples = sound_reader.samples::<i16>()
+                                .map(|x| x.unwrap())
+                                .collect::<Vec<i16>>();
+
+        let pcm = MonoPcm(samples.as_slice());
 
         let mut out_buffer = Vec::new();
         out_buffer.reserve(mp3lame_encoder::max_required_buffer_size(pcm.0.len()));

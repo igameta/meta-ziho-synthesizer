@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+hound = "3.5.1"
 mp3lame-encoder = "0.2.1"
 rodio = "0.20.1"
 vvcore = "0.0.2"
